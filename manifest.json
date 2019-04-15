@@ -1,0 +1,26 @@
+{
+"manifest_version": 2,
+    "name": "Sclera icons for Google Calendar",
+    "description": "Replaces strings like \"sclera:12345\" with coincident icons from http://sclera.be",
+    "version": "1.0",
+    "content_scripts": [
+        {
+            "matches": [
+                "*://sclera.be/*"
+            ],
+            "js": [
+                "sclera_addon.js"
+            ],
+            "run_at": "document_end"
+        },
+        {
+            "matches": [
+                "*://*/*"
+            ],
+            "js": [
+                "content.js"
+            ],
+            "run_at": "document_end"
+        }
+    ]
+}
