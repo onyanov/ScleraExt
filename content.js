@@ -1,26 +1,26 @@
-var ScreraGCalendar = {
-
-    init: function() {
-        // http://sclera.be/en/picto/detail/23144
-        // $('.picto-large').find('img').attr('src')
+var ScleraGCalendar = {
+    replaceLinksWithPictures: function() {
+        var re = new RegExp("sclera: (.*) \((.*)\)", "g");
+        var grids = document.querySelectorAll('[role="gridcell"]');
+        for (var g = 0; g < grids.length; g++) {
+            var elements = grids[g].getElementsByTagName('span');
+            for (var i = 0; i < elements.length; i++) {
+                var element = elements[i];
+                var matches = element.innerText.match(re);
+                if (matches !== null && matches.length === 1) {
+                    var text = element.innerText.replace('(', '<img src="https://sclera.be/resources/pictos/');
+                    text = text.replace(')', '" width="120" height="120" style="display:block;margin-top:2px;margin-bottom:4px;" />');
+                    if (text !== element.innerText) {
+                        element.innerHTML = text;
+                        console.log('ScleraGCalendar replaced');
+                    }
+                }
+            }
+        }
+        window.setTimeout(function() {
+            ScleraGCalendar.replaceLinksWithPictures();
+        }, 1000);
     }
 };
 
-var elements = document.getElementsByTagName('*');
-
-for (var i = 0; i < elements.length; i++) {
-    var element = elements[i];
-
-    for (var j = 0; j < element.childNodes.length; j++) {
-        var node = element.childNodes[j];
-
-        if (node.nodeType === 3) {
-            var text = node.nodeValue;
-            var replacedText = text.replace(/sclera:[word or phrase to replace here]/gi, '[new word or phrase]');
-
-            if (replacedText !== text) {
-                element.replaceChild(document.createTextNode(replacedText), node);
-            }
-        }
-    }
-}
+ScleraGCalendar.replaceLinksWithPictures();
